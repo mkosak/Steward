@@ -1,0 +1,30 @@
+.user-card {
+    display: flex;
+
+    &__name {
+        font-size: 18px;
+        font-weight: 700;
+    }
+    &__position {
+        font-size: 16px;
+        font-weight: 400;
+        display: block;
+    }
+}
+.user-data {
+    padding: 0;
+    margin: 24px 0 0 0;
+    list-style: none;
+
+    li {
+        display: flex;
+    }
+
+    &__name {
+        font-weight: 600;
+        width: 50%;
+    }
+}
+.vacations {
+    padding: 24px;
+}

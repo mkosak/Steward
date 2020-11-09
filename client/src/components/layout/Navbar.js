@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logoutUser } from '../../actions/authActions';
+import './Navbar.scss';
 
 const Navbar = (props) => {
     const { user, isAuthenticated } = props.auth;
@@ -18,10 +19,15 @@ const Navbar = (props) => {
                 <ul className="flix-header-nav">
                     <li className="flix-header-nav__item">
                         <Link
-                            to="/"
+                            to="/dashboard"
                             className="flix-header-nav__link flix-header-nav__link--active"
                         >
                             Dashboard
+                        </Link>
+                    </li>
+                    <li className="flix-header-nav__item">
+                        <Link to="/calendar" className="flix-header-nav__link">
+                            Calendar
                         </Link>
                     </li>
                 </ul>
@@ -67,11 +73,7 @@ const Navbar = (props) => {
 
     return (
         <header className="flix-header flix-header--unfixed">
-            <div className="flix-header__inner">
-                <button className="flix-header-nav-toggle" title="Toggle menu">
-                    <i className="flix-icon flix-icon-burger"></i>
-                </button>
-
+            <div className="flix-header__inner stuart-header__inner">
                 <div className="flix-header-brand flix-header-brand--square">
                     <Link to="/" className="flix-header-brand__link">
                         <img

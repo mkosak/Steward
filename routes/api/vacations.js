@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-// const keys = require('../../config/keys');
+
 // Load input validation
 const validateRegisterInput = require('../../validation/add');
-// const validateLoginInput = require('../../validation/login');
+
 // Load Vacation model
 const Vacation = require('../../models/Vacation');
 
@@ -54,23 +52,15 @@ router.get('/', (req, res) => {
     }
 
     // Find vacations by email
-    Vacation.findOne({ email }).then((vacation) => {
+    Vacation.find({ email: { $eq: email } }).then((vacations) => {
         // Check if vac ation exists
-        if (!vacation) {
+        if (!vacations.length) {
             return res
                 .status(404)
                 .json({ vacationnotfound: 'Vacations not found' });
         }
 
-        const payload = {
-            type: vacation.type,
-            email: vacation.email,
-            dateStart: vacation.dateStart,
-            dateEnd: vacation.dateEnd,
-            status: vacation.status,
-        };
-
-        return res.status(200).json(payload);
+        return res.status(200).json(vacations);
     });
 });
 

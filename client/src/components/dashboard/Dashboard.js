@@ -1,82 +1,121 @@
-import React, { useReducer } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser } from '../../actions/authActions';
+
+import Accordion from './../panel/Accordion';
+
+import './Dashboard.scss';
 
 const Dashboard = (props) => {
     const { user } = props.auth;
+    const [isLoaded, setIsLoaded] = useState(true);
+    const [items, setItems] = useState([]);
 
-    const initialState = {
-        type: '',
-        email: user.email,
-        dateStart: '',
-        dateEnd: '',
-        status: 'pending',
-    };
+    useEffect(() => {
+        axios
+            .get('/api/vacations', { params: { email: user.email } })
+            .then((res) => {
+                setItems(res.data);
+                setIsLoaded(false);
+            })
+            .catch();
+    }, [user.email]);
 
-    const reducer = (state, action) => {
-        switch (action.type) {
-            case 'type':
-                return { type: action.payload };
-            case 'dateStart':
-                return { dateStart: action.payload };
-            case 'dateEnd':
-                return { dateEnd: action.payload };
-            default:
-                throw new Error();
-        }
-    };
+    // const initialState = {
+    //     type: '',
+    //     email: user.email,
+    //     dateStart: '',
+    //     dateEnd: '',
+    //     status: 'pending',
+    // };
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    // const reducer = (state, action) => {
+    //     switch (action.type) {
+    //         case 'type':
+    //             return { type: action.payload };
+    //         case 'dateStart':
+    //             return { dateStart: action.payload };
+    //         case 'dateEnd':
+    //             return { dateEnd: action.payload };
+    //         default:
+    //             throw new Error();
+    //     }
+    // };
 
-    const onInput = ({ name, target }) => () => {
-        dispatch({ type: name, payload: target.value });
-    };
+    // const [state, dispatch] = useReducer(reducer, initialState);
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    // const onInput = ({ name, target }) => () => {
+    //     dispatch({ type: name, payload: target.value });
+    // };
 
-        const newVacation = state;
+    // const onSubmit = (e) => {
+    //     e.preventDefault();
 
-        console.log('SUBMIT FORM', newVacation);
+    //     const newVacation = state;
 
-        //props.addVacation(newVacation, props.history);
-    };
+    //     console.log('SUBMIT FORM', newVacation);
+
+    //     //props.addVacation(newVacation, props.history);
+    // };
+
+    useEffect(() => {
+        axios
+            .get('/api/vacations', { params: { email: user.email } })
+            .then((res) => {
+                setItems(res.data);
+                setIsLoaded(false);
+            })
+            .catch();
+    }, [user.email]);
 
     return (
-        <div>
-            <div className="row">
-                <form noValidate onSubmit={onSubmit}>
-                    <div className="input-field col s12">
-                        <input
-                            onChange={onInput('type')}
-                            defaultValue={state.type}
-                            id="type"
-                            type="type"
-                        />
-                        <label htmlFor="type">Type</label>
+        <div className="flix-grid">
+            <div className="flix-col-3">
+                <Accordion user={user} />
+            </div>
+            <div className="flix-col-6">
+                <div className="vacations">
+                    <div className="flix-box">
+                        {isLoaded ? (
+                            <div>
+                                <span className="flix-skeleton flix-skeleton--h-md flix-skeleton--w-md"></span>
+                                <p className="flix-text">
+                                    <span className="flix-skeleton"></span>
+                                    <span className="flix-skeleton"></span>
+                                    <span className="flix-skeleton flix-skeleton--w-lg"></span>
+                                    <span className="flix-skeleton flix-skeleton--w-sm"></span>
+                                </p>
+                                <span className="flix-skeleton flix-skeleton--h-lg flix-skeleton--w-md flix-skeleton--flush-bottom"></span>
+                            </div>
+                        ) : (
+                            <div>
+                                <h2 className="flix-h2">Vacation Overview</h2>
+                                <div className="flix-grid">
+                                    <div className="flix-col">
+                                        Planned {items.length}
+                                    </div>
+                                    <div className="flix-col">Casual</div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <div className="col s12">
-                        <button
-                            type="submit"
-                            className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                        >
-                            Add vacation
-                        </button>
-                    </div>
-                </form>
-                {/* type: req.body.name, email: req.body.email, dateStart:
-                req.body.dateStart, dateEnd: req.body.dateEnd, status:
-                'pending', */}
+                </div>
+            </div>
+            <div className="flix-col-3">
+                <h2 className="flix-h2">Public holidays (Ukraine)</h2>
             </div>
         </div>
     );
 };
+
 Dashboard.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = (state) => ({
     auth: state.auth,
 });
-export default connect(mapStateToProps, { logoutUser })(Dashboard);
+
+export default connect(mapStateToProps)(Dashboard);

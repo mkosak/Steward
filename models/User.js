@@ -17,7 +17,7 @@ const UserSchema = new Schema({
     },
     startDate: {
         type: String,
-        default: Date.now.toString(),
+        default: '',
     },
     approver: {
         type: String,
@@ -30,6 +30,10 @@ const UserSchema = new Schema({
     role: {
         type: String,
         default: 'user',
+    },
+    position: {
+        type: String,
+        default: 'developer',
     },
 });
 
