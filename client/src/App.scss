@@ -1,3 +1,33 @@
-.stuart-page-container {
-    max-width: 1400px;
+@import '@flixbus/honeycomb-react/dist/scss/honeycomb-tools.scss';
+
+.stewart-page-container {
+    max-width: none;
+    margin: 0;
+    padding: 0;    
+}
+
+.stewart-header {
+    & > [class*="inner"] {
+        max-width: none;
+    }
+
+    [class*="brand__img"] {
+        height: auto;
+        margin-left: 20px;
+    }
+}
+
+.user-panel {
+    min-width: 363px; // minimum design width
+    background-color: #fff;
+    border-right: 1px solid cssvar(primary-line-color);
+
+    @media (max-width: 767px) {
+        display: none;
+    }
+}
+
+.main-panel {
+    width: calc(100% - 363px);
+    padding: 24px 61px;
 }

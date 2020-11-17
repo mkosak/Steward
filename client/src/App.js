@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Link,
+    NavLink,
+} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import { Provider } from 'react-redux';
 import store from './store';
 
-import Navbar from './components/layout/Navbar';
+import {
+    MainWrapper,
+    PageContainer,
+    ThemeWrapper,
+    Header,
+    HeaderUserWidget,
+} from '@flixbus/honeycomb-react';
+
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
@@ -37,37 +50,90 @@ if (localStorage.jwtToken) {
 
 class App extends Component {
     render() {
+        const headerBrand = {
+            alt: 'Stewart',
+            image: 'logo.svg',
+            href: '/',
+        };
+
+        const navigation = [
+            {
+                content: 'Dashboard',
+                href: '/dashboard',
+                RouterLink: NavLink,
+            },
+            {
+                content: 'Calendar',
+                href: '/calendar',
+                RouterLink: NavLink,
+            },
+        ];
+        const profileNavigation = [
+            {
+                content: 'Profile',
+                href: '/profile',
+                RouterLink: NavLink,
+            },
+            {
+                content: 'Logout',
+                href: '/logout',
+                RouterLink: NavLink,
+            },
+        ];
+
         return (
             <Provider store={store}>
                 <Router>
-                    <div className="flix-theme-default">
-                        <section className="flix-main-wrapper">
-                            <Navbar />
-
-                            <section className="flix-page-container flix-space-xs-top stuart-page-container">
-                                <Route exact path="/" component={Landing} />
-                                <Route
-                                    exact
-                                    path="/register"
-                                    component={Register}
-                                />
-                                <Route exact path="/login" component={Login} />
-
-                                <Switch>
-                                    <PrivateRoute
-                                        exact
-                                        path="/dashboard"
-                                        component={Dashboard}
+                    <ThemeWrapper theme="default">
+                        <MainWrapper extraClasses="stewart-main-wrapper">
+                            <Header
+                                brand={headerBrand}
+                                navigation={navigation}
+                                widget={
+                                    <HeaderUserWidget
+                                        url={{
+                                            RouterLink: Link,
+                                            to: '/logout',
+                                        }}
+                                        text="John Doe"
+                                        navigation={profileNavigation}
                                     />
-                                    <PrivateRoute
+                                }
+                                extraClasses="stewart-header"
+                                stickyWidget
+                                fixed={false}
+                            />
+
+                            <PageContainer extraClasses="stewart-page-container">
+                                <section className="flix-page-container flix-space-xs-top stewart-page-container">
+                                    <Route exact path="/" component={Landing} />
+                                    <Route
                                         exact
-                                        path="/calendar"
-                                        component={CalendarView}
+                                        path="/register"
+                                        component={Register}
                                     />
-                                </Switch>
-                            </section>
-                        </section>
-                    </div>
+                                    <Route
+                                        exact
+                                        path="/login"
+                                        component={Login}
+                                    />
+
+                                    <Switch>
+                                        <PrivateRoute
+                                            exact
+                                            path="/dashboard"
+                                            component={Dashboard}
+                                        />
+                                        <PrivateRoute
+                                            exact
+                                            path="/calendar"
+                                            component={CalendarView}
+                                        />
+                                    </Switch>
+                                </section>
+                            </PageContainer>
+                        </MainWrapper>
+                    </ThemeWrapper>
                 </Router>
             </Provider>
         );

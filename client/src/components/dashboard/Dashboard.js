@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { logoutUser } from '../../actions/authActions';
 
 import Accordion from './../panel/Accordion';
 
@@ -22,43 +23,6 @@ const Dashboard = (props) => {
             .catch();
     }, [user.email]);
 
-    // const initialState = {
-    //     type: '',
-    //     email: user.email,
-    //     dateStart: '',
-    //     dateEnd: '',
-    //     status: 'pending',
-    // };
-
-    // const reducer = (state, action) => {
-    //     switch (action.type) {
-    //         case 'type':
-    //             return { type: action.payload };
-    //         case 'dateStart':
-    //             return { dateStart: action.payload };
-    //         case 'dateEnd':
-    //             return { dateEnd: action.payload };
-    //         default:
-    //             throw new Error();
-    //     }
-    // };
-
-    // const [state, dispatch] = useReducer(reducer, initialState);
-
-    // const onInput = ({ name, target }) => () => {
-    //     dispatch({ type: name, payload: target.value });
-    // };
-
-    // const onSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     const newVacation = state;
-
-    //     console.log('SUBMIT FORM', newVacation);
-
-    //     //props.addVacation(newVacation, props.history);
-    // };
-
     useEffect(() => {
         axios
             .get('/api/vacations', { params: { email: user.email } })
@@ -71,11 +35,11 @@ const Dashboard = (props) => {
 
     return (
         <div className="flix-grid">
-            <div className="flix-col-3">
-                <Accordion user={user} />
+            <div className="user-panel">
+                <Accordion user={user} active="dashboard" />
             </div>
-            <div className="flix-col-6">
-                <div className="vacations">
+            <div className="flix-grid main-panel">
+                <div className="flix-col-9 vacations">
                     <div className="flix-box">
                         {isLoaded ? (
                             <div>
@@ -101,9 +65,9 @@ const Dashboard = (props) => {
                         )}
                     </div>
                 </div>
-            </div>
-            <div className="flix-col-3">
-                <h2 className="flix-h2">Public holidays (Ukraine)</h2>
+                <div className="flix-col-3">
+                    <h2 className="flix-h2">Public holidays (Ukraine)</h2>
+                </div>
             </div>
         </div>
     );
@@ -118,4 +82,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { logoutUser })(Dashboard);

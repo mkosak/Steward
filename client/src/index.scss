@@ -1,5 +1,12 @@
+@import '@flixbus/honeycomb-react/dist/scss/honeycomb-tools.scss';
+
 body {
   padding: 0;
   margin: 0;
   font-family: 'Roboto Condensed', sans-serif;
+  background-color: cssvar(grayscale-10-color);
+}
+
+.stewart-main-wrapper {
+  background-color: cssvar(grayscale-10-color);
 }

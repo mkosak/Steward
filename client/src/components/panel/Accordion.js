@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Request from './../request/Request';
+
+import './accordion.scss';
 
 const Accordion = (props) => {
-    const { user } = props;
+    const { user, active } = props;
 
     return (
-        <div>
-            <details className="flix-accordion" open>
-                <summary className="flix-accordion__title">
+        <div className="stewart-accordion">
+            <details className="flix-accordion" open={active === 'dashboard'}>
+                <summary className="flix-accordion__title stewart-accordion__title">
                     <h3 className="flix-h3">
                         <i className="flix-icon flix-icon--sm flix-icon-apps" />
                         Dashboard
                     </h3>
                 </summary>
-                <article className="flix-accordion__content">
+                <article className="flix-accordion__content stewart-accordion__content">
                     <div className="user-card">
                         <img src={user.img} alt="" className="user-card__img" />
                         <div className="user-card__name">
@@ -47,32 +50,34 @@ const Accordion = (props) => {
                     </ul>
                 </article>
             </details>
-            <details className="flix-accordion">
-                <summary className="flix-accordion__title">
+            <details className="flix-accordion" open={active === 'calendar'}>
+                <summary className="flix-accordion__title stewart-accordion__title">
                     <h3 className="flix-h3">
                         <i className="flix-icon flix-icon--sm flix-icon-calendar" />
                         Calendar
                     </h3>
                 </summary>
-                <article className="flix-accordion__content"></article>
+                <article className="flix-accordion__content stewart-accordion__content">
+                    <Request />
+                </article>
             </details>
-            <details className="flix-accordion">
-                <summary className="flix-accordion__title">
+            <details className="flix-accordion" open={active === 'requests'}>
+                <summary className="flix-accordion__title stewart-accordion__title">
                     <h3 className="flix-h3">
                         <i className="flix-icon flix-icon--sm flix-icon-invoice" />
                         Requests
                     </h3>
                 </summary>
-                <article className="flix-accordion__content"></article>
+                <article className="flix-accordion__content stewart-accordion__content"></article>
             </details>
-            <details className="flix-accordion">
-                <summary className="flix-accordion__title">
+            <details className="flix-accordion" open={active === 'teams'}>
+                <summary className="flix-accordion__title stewart-accordion__title">
                     <h3 className="flix-h3">
                         <i className="flix-icon flix-icon--sm flix-icon-collaboration" />
                         Teams
                     </h3>
                 </summary>
-                <article className="flix-accordion__content"></article>
+                <article className="flix-accordion__content stewart-accordion__content"></article>
             </details>
         </div>
     );
@@ -80,6 +85,7 @@ const Accordion = (props) => {
 
 Accordion.propTypes = {
     user: PropTypes.object.isRequired,
+    active: PropTypes.string.isRequired,
 };
 
 export default Accordion;

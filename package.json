@@ -1,5 +1,5 @@
 {
-  "name": "stuart_2",
+  "name": "stewart_2",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -9,10 +9,6 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@git.flix.tech:hackrday/stuart_2.git"
   },
   "author": "maksym.kosak@flixbus.com",
   "license": "ISC",

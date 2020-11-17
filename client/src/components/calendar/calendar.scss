@@ -1,0 +1,23 @@
+@import '@flixbus/honeycomb-react/dist/scss/honeycomb-tools.scss';
+
+.stewart-calendar-list {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    background-color: cssvar(grayscale-10-color);
+
+    & > div {
+        margin-right: 40px;
+        margin-bottom: 30px;
+        padding: 0;
+    }
+}
+
+.stewart-year-dropdown {
+    margin-bottom: 24px;
+
+    button {
+        font-size: 28px;
+        font-weight: 700;
+    }
+}

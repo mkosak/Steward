@@ -15,4 +15,8 @@ const store = createStore(
     )
 );
 
+// const unsubscribe = store.subscribe(() =>
+//     console.log('State after dispatch: ', store.getState())
+// );
+
 export default store;
